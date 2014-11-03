@@ -11,6 +11,7 @@ class StatusesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:statuses)
   end
 
+
 # *******************************************************
 # Original test before changing it below
 #   test "should get new" do
@@ -55,7 +56,6 @@ class StatusesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-
 # --- For editing a status ---
   test " edit should be redirected when not signed in" do
     get :edit, id: @status
@@ -85,12 +85,22 @@ class StatusesControllerTest < ActionController::TestCase
   end
 # -----------------------------
 
+# --- For deleting a status ---
 
-  test "should destroy status" do
+  test "should destroy status when logged in" do
+    sign_in users(:alex)
     assert_difference('Status.count', -1) do
       delete :destroy, id: @status
     end
 
     assert_redirected_to statuses_path
   end
+
+ test "should redirect status destroy when not logged in" do
+    delete :destroy, id: @status
+    assert_response :redirect
+    assert_redirected_to new_user_session_path
+  end
+
+
 end

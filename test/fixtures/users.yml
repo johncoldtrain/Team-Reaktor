@@ -10,9 +10,9 @@
 # two: {}
 # #  column: value
 
-alex: {
-	first_name: "Alex",
-	last_name: "Romanillos",
-	email: "alexromanillos@gmail.com",
-	profile_name: "johncoldtrain"
-}
+alex: 
+ first_name: "Alex"
+ last_name: "Romanillos"
+ email: "alexromanillos@gmail.com"
+ profile_name: "johncoldtrain"
+ encrypted_password: "password"
