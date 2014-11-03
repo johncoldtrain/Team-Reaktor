@@ -16,3 +16,10 @@ alex:
  email: "alexromanillos@gmail.com"
  profile_name: "johncoldtrain"
  encrypted_password: "password"
+
+perro: 
+ first_name: "Perro"
+ last_name: "Gacho"
+ email: "perrogacho@gmail.com"
+ profile_name: "perrogacho"
+ encrypted_password: "password"

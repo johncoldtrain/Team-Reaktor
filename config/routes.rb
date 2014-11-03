@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     get 'login', to: 'devise/sessions#new', as: :login
   end
 
+  # Added to enable the profile pages
+  get '/:id', to: 'profiles#show'
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,12 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  content: MyText
+ content: MyText
   # Added to be able to run the statuses_controller_test.rb 
   # to implement the login requirenment in the statuses_controller.rb
   # as a before_action
-  user: alex
+ user: alex
 
 two:
-  content: MyText
-  user: alex
+ content: MyText
+ user: alex
+
+three:
+ content: "Soy Perro Gacho"
+ user: perro
