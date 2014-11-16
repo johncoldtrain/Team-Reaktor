@@ -4,10 +4,20 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
 
+# ==============
+
+# !!! ADDED TO CHANGE IN PRODUCTION TO postgresql IN ORDER TO BE ABLE TO DEPLOY INTO HEROKU !!!
+group :production do
+	gem 'pg', '~> 0.17.1'
+end
+
 group :development, :test do 
 	# Use sqlite3 as the database for Active Record
 	gem 'sqlite3'
 end
+
+
+# ==============
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
