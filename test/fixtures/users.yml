@@ -23,3 +23,12 @@ perro:
  email: "perrogacho@gmail.com"
  profile_name: "perrogacho"
  encrypted_password: "password"
+
+mike: 
+ first_name: "Mike"
+ last_name: "The Frog"
+ email: "mikethefrog@gmail.com"
+ profile_name: "mikethefrog"
+ encrypted_password: "password" 
+
+ 

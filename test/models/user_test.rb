@@ -1,9 +1,15 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  
+
+# Shoulda gem tests ----------------
+
+  should have_many(:user_friendships)
+  should have_many(:friends)
+
+
+# -----------------------------------
 
 # Tests for validation of fields to be present in app/models/user.rb
   test "a user should enter a first name" do
@@ -51,6 +57,18 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors[:profile_name].empty?
   end
 
+  # Tests for relationships with friendships -------------------
 
+  test "that no error is raised when trying to access a friend list" do
+    assert_nothing_raised do
+      users(:alex).friends
+    end
+  end
+
+  test "that creating friendships on a user works" do
+    users(:alex).friends << users(:mike)
+    users(:alex).friends.reload
+    assert users(:alex).friends.include?(users(:mike))
+  end
 
 end

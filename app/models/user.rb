@@ -20,6 +20,10 @@ class User < ActiveRecord::Base
 
    # Relations declaration
    has_many :statuses
+   has_many :user_friendships
+
+   # Special declaration since we are using an indirect attribute
+   has_many :friends, through: :user_friendships
 
    # Method to return the full name
    def full_name
