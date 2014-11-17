@@ -48,7 +48,9 @@ gem 'devise'
 # Simple_Form to configure forms
 gem 'simple_form'
 
-
+group :test do
+	gem 'shoulda'
+end
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
