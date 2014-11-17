@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h1><%= @user.full_name %></h1>
+	<h1><%= image_tag @user.gravatar_url + "?s=300" %> <%= @user.full_name %></h1>
 </div>
 
 <% if @statuses %>

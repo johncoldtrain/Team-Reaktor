@@ -1,5 +1,5 @@
 <header id="status_header">
-  <h1>All of the Statuses</h1>
+  <h1>Welcome to Treebook!</h1>
 </header>
 <hr>
 <%= link_to "Post a New Status", new_status_path, class: "btn btn-success" %>
@@ -8,7 +8,7 @@
 <div class="status">
 	<div class="row">
 		<div class="col-md-1">
-			<%= image_tag status.user.gravatar_url %>
+			<a href="/<%= status.user.profile_name %>"><%= image_tag status.user.gravatar_url %></a>
 		</div>
 		<div class="col-md-7" style="margin-left: 20px;">
 		  <strong><%= status.user.full_name %></strong>

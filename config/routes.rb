@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   # Added to enable the profile pages
-  get '/:id', to: 'profiles#show'
+  get '/:id', to: 'profiles#show', as: :profile
 
 
 

@@ -46,6 +46,10 @@ class StatusesController < ApplicationController
   # PATCH/PUT /statuses/1.json
   def update
     
+    # if params[:status] && params[:status].has_key?(:user_id)
+    #   params[:status].delete(:user_id)
+    # end
+
     respond_to do |format|
       if @status.update(status_params)
         format.html { redirect_to @status, notice: 'Status was successfully updated.' }
