@@ -8,8 +8,21 @@ gem 'rails', '4.1.1'
 
 # !!! ADDED TO CHANGE IN PRODUCTION TO postgresql IN ORDER TO BE ABLE TO DEPLOY INTO HEROKU !!!
 group :production do
-	gem 'pg', '~> 0.17.1'
+	gem 'pg', '~> 0.18.0'
 end
+
+# To be able to bundle install the pg gem, I had to download from http://postgresapp.com
+# the Postgres.app and added it to the applications folder
+# Then ran:
+# =>  gem install pg -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/9.4/bin/pg_config 
+
+# For iMac I had to use:
+# $ sudo su
+# $ env ARCHFLAGS="-arch x86_64" gem install pg -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/9.4/bin/pg_config
+
+#-------------
+
+
 
 group :development, :test do 
 	# Use sqlite3 as the database for Active Record
