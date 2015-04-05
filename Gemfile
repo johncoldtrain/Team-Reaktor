@@ -61,8 +61,11 @@ gem 'devise'
 # Simple_Form to configure forms
 gem 'simple_form'
 
+gem 'state_machine'
+
 group :test do
 	gem 'shoulda'
+	gem 'factory_girl_rails'
 end
 
 # Use ActiveModel has_secure_password

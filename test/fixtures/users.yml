@@ -15,7 +15,7 @@ alex:
  last_name: "Romanillos"
  email: "alexromanillos@gmail.com"
  profile_name: "johncoldtrain"
- encrypted_password: "password"
+ encrypted_password: "$2a$10$Fh/Hm8RxDsuPTeBUr6864.GARlcmt7zF2WspaXGr3BIv2C27N.osq"
 
 perro: 
  first_name: "Perro"

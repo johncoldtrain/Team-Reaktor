@@ -36,7 +36,7 @@ class UserTest < ActiveSupport::TestCase
   	user.profile_name = 'johncoldtrain'
   	assert !user.save
   	assert !user.errors[:profile_name].empty?
-  	puts user.errors.inspect
+  	# puts user.errors.inspect
   end
 
 # Format test
@@ -66,9 +66,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "that creating friendships on a user works" do
-    users(:alex).friends << users(:mike)
-    users(:alex).friends.reload
-    assert users(:alex).friends.include?(users(:mike))
+    users(:alex).pending_friends << users(:mike)
+    users(:alex).pending_friends.reload
+    assert users(:alex).pending_friends.include?(users(:mike))
+  end
+
+  test "that calling to_param on a user returns the profile_name" do
+    assert_equal "perrogacho", users(:perro).to_param
   end
 
 end
