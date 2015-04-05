@@ -7,8 +7,6 @@ class UserFriendshipsController < ApplicationController
 		@user_friendships = current_user.user_friendships.all
 	end
 
-
-
 	def new
 		if params[:friend_id]
 			@friend = User.where(profile_name: params[:friend_id]).first
@@ -35,5 +33,21 @@ class UserFriendshipsController < ApplicationController
 		end
 	end
 
+
+	def accept
+		@user_friendship = current_user.user_friendships.find(params[:id])
+		if @user_friendship.accept!
+			flash[:notice] = "You are now friends with #{@user_friendship.friend.first_name}"
+		else
+			flash[:alert] = "That friendship could not be accepted."
+		end
+		redirect_to user_friendships_path 
+	end
+
+
+	def edit
+		@user_friendship = current_user.user_friendships.find(params[:id])
+		@friend = @user_friendship.friend
+	end
 
 end
