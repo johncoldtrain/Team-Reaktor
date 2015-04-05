@@ -43,9 +43,42 @@ class UserFriendshipTest < ActiveSupport::TestCase
   end # === #send_request_email ===
 
 
+  context "#mutual_friendship" do
+    setup do
+      UserFriendship.request users(:alex), users(:perro)
+      @friendship1 = users(:alex).user_friendships.where(friend_id: users(:perro).id).first
+      @friendship2 = users(:perro).user_friendships.where(friend_id: users(:alex).id).first
+    end
+
+    should "correctly find the mutual friendship" do
+      assert_equal @friendship2, @friendship1.mutual_friendship
+    end
+
+  end
+
+
+  context "#accept_mutual_friendship!" do
+    setup do
+      UserFriendship.request users(:alex), users(:perro)
+    end
+
+    should "accept the mutual friendship" do
+      friendship1 = users(:alex).user_friendships.where(friend_id: users(:perro).id).first
+      friendship2 = users(:perro).user_friendships.where(friend_id: users(:alex).id).first
+    
+      friendship1.accept_mutual_friendship!
+      friendship2.reload
+
+      assert_equal 'accepted', friendship2.state
+
+    end
+
+  end # --- #accept_mutual_friendship!
+
+
   context "#accept!" do
     setup do
-      @user_friendship = UserFriendship.create user: users(:alex), friend: users(:mike)
+      @user_friendship = UserFriendship.request users(:alex), users(:mike)
     end
 
     should "set the state to accepted" do
@@ -63,6 +96,11 @@ class UserFriendshipTest < ActiveSupport::TestCase
       @user_friendship.accept!
       users(:alex).friends.reload
       assert users(:alex).friends.include?(users(:mike))
+    end
+
+    should "accept the mutual friendship" do
+      @user_friendship.accept!
+      assert_equal 'accepted', @user_friendship.mutual_friendship.state
     end
 
   end # === #accept! ===
@@ -85,6 +123,36 @@ class UserFriendshipTest < ActiveSupport::TestCase
     end
 
   end # ==== .request ====
+
+
+  context "#delete_mutual_friendship!" do
+    setup do
+      UserFriendship.request users(:alex), users(:perro)
+      @friendship1 = users(:alex).user_friendships.where(friend_id: users(:perro).id).first
+      @friendship2 = users(:perro).user_friendships.where(friend_id: users(:alex).id).first
+    end
+    
+    should "delete the mutual friendship" do
+      assert_equal @friendship2, @friendship1.mutual_friendship
+      @friendship1.delete_mutual_friendship!
+      assert !UserFriendship.exists?(@friendship2.id)
+    end
+  end # -- #delete_mutual_friendship! --
+
+  context "on destroy" do
+     setup do
+      UserFriendship.request users(:alex), users(:perro)
+      @friendship1 = users(:alex).user_friendships.where(friend_id: users(:perro).id).first
+      @friendship2 = users(:perro).user_friendships.where(friend_id: users(:alex).id).first
+    end
+
+    should "delete the mutual friendship" do
+      @friendship1.destroy
+      assert !UserFriendship.exists?(@friendship2.id)
+    end
+
+  end # -- on destroy --
+
 
 
 end

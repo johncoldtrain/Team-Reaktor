@@ -179,7 +179,7 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 
 				should "set the flash success message" do
 					assert flash[:notice]
-					assert_equal "You are now friends with #{users(:perro).full_name}", flash[:notice]
+					assert_equal "Friend request sent.", flash[:notice]
 				end
 
 			
@@ -258,6 +258,28 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 	end # ---- #edit ----
 
 
+
+	context "#destroy" do 
+
+		context "when not logged in" do
+			should "redirect to the login page" do
+				put :accept, id: 1
+				assert_response :redirect
+			end
+		end
+
+		context "when logged in" do
+			setup do
+				@friend = create(:user)
+				UserFriendship.request users(:alex), @friend
+
+				sign_in users(:alex)
+				delete :destroy, id: @user_friendship
+				@user_friendship.reload
+			end
+		end
+
+	end
 
 end
 
