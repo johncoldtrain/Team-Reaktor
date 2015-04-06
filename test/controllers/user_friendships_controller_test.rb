@@ -201,7 +201,10 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 
 		context "when logged in" do
 			setup do
-				@user_friendship = create(:pending_user_friendship, user: users(:alex))
+				@friend = create(:user)
+				@user_friendship = create(:pending_user_friendship, friend: @friend, user: users(:alex))
+				create(:requested_user_friendship, friend: users(:alex), user: @friend)
+
 				sign_in users(:alex)
 				put :accept, id: @user_friendship
 				@user_friendship.reload
@@ -271,15 +274,30 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 		context "when logged in" do
 			setup do
 				@friend = create(:user)
-				UserFriendship.request users(:alex), @friend
+				@user_friendship = create(:accepted_user_friendship, friend: @friend, user: users(:alex))
+				create(:accepted_user_friendship, friend: users(:alex), user: @friend)
 
 				sign_in users(:alex)
-				delete :destroy, id: @user_friendship
-				@user_friendship.reload
+				
 			end
-		end
 
-	end
+			should "delete user friendships" do
+				assert_difference 'UserFriendship.count', -2 do
+					delete :destroy, id: @user_friendship
+				end
+			end
+
+			should "set the flash" do
+				delete :destroy, id: @user_friendship
+				assert_equal "Friendship destroyed", flash[:notice]
+			end
+
+		end # -- when logged in --
+
+	end # ---- #destroy ----
+
+
+
 
 end
 
