@@ -7,6 +7,13 @@ class UserTest < ActiveSupport::TestCase
 
   should have_many(:user_friendships)
   should have_many(:friends)
+  should have_many(:pending_user_friendships)
+  should have_many(:pending_friends)
+  should have_many(:requested_user_friendships)
+  should have_many(:requested_friends)
+  should have_many(:blocked_user_friendships)
+  should have_many(:blocked_friends)
+
 
 
 # -----------------------------------
@@ -75,4 +82,31 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "perrogacho", users(:perro).to_param
   end
 
+
+  context "#has_blocked?" do
+
+    should "return true if a user has blocked another user" do
+      assert users(:alex).has_blocked?(users(:blocked_friend))
+    end
+
+    should "return false if a user has not blocked another user" do
+      assert !users(:alex).has_blocked?(users(:perro))
+    end
+
+  end # --- #has_blocked? ---
+
+
+
 end
+
+
+
+
+
+
+
+
+
+
+
+

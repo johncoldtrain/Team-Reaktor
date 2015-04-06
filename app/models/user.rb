@@ -27,15 +27,31 @@ class User < ActiveRecord::Base
    # Advanced scoping. -> is the conditional setting.
    has_many :friends, -> { where(user_friendships: {state: "accepted"} ) }, through: :user_friendships
 
+
    has_many :pending_user_friendships, -> { where(user_friendships: {state: "pending"} ) }, 
                                         class_name: "UserFriendship", 
                                         foreign_key: :user_id
-
   has_many :pending_friends, through: :pending_user_friendships, source: :friend
 
 
 
+  has_many :requested_user_friendships, -> { where(user_friendships: {state: "requested"} ) }, 
+                                        class_name: "UserFriendship", 
+                                        foreign_key: :user_id
+  has_many :requested_friends, through: :requested_user_friendships, source: :friend
 
+
+
+  has_many :blocked_user_friendships, -> { where(user_friendships: {state: "blocked"} ) }, 
+                                        class_name: "UserFriendship", 
+                                        foreign_key: :user_id
+  has_many :blocked_friends, through: :blocked_user_friendships, source: :friend
+
+
+  has_many :accepted_user_friendships, -> { where(user_friendships: {state: "accepted"} ) }, 
+                                        class_name: "UserFriendship", 
+                                        foreign_key: :user_id
+  has_many :accepted_friends, through: :accepted_user_friendships, source: :friend
 
 
    # Method to return the full name
@@ -54,6 +70,11 @@ class User < ActiveRecord::Base
     hash = Digest::MD5.hexdigest(downcased_email)
 
     "http://gravatar.com/avatar/#{hash}"
+   end
+
+
+   def has_blocked?(other_user)
+    blocked_friends.include?(other_user)
    end
 
 

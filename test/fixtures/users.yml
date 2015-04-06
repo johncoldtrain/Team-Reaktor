@@ -31,4 +31,8 @@ mike:
  profile_name: "mikethefrog"
  encrypted_password: "password" 
 
- 
+blocked_friend:
+ first_name: 'Blocked'
+ last_name: 'Friend'
+ email: 'blocked@email.com'
+ profile_name: 'youblockedme'

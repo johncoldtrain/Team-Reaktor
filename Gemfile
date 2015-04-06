@@ -57,6 +57,8 @@ gem 'state_machine'
 
 gem 'draper'
 
+gem 'js-routes'
+
 
 
 
