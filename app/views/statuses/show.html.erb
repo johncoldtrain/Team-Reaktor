@@ -15,6 +15,11 @@
     </p>
 
     <hr />
+
+    <%= status_document_link @status %>
+      <hr />
+
+
     <div class="meta">
       <%= link_to 'Back', statuses_path %>
       <% if signed_in? && @status.user == current_user %>

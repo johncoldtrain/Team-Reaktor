@@ -19,6 +19,7 @@ class StatusesController < ApplicationController
   # GET /statuses/new
   def new
     @status = Status.new
+    @status.build_document # <- from paperclip to prepare to receive the attachment
   end
 
   # GET /statuses/1/edit
@@ -42,16 +43,15 @@ class StatusesController < ApplicationController
     end
   end
 
+
   # PATCH/PUT /statuses/1
   # PATCH/PUT /statuses/1.json
   def update
     
-    # if params[:status] && params[:status].has_key?(:user_id)
-    #   params[:status].delete(:user_id)
-    # end
+    @document = @status.document
 
     respond_to do |format|
-      if @status.update(status_params)
+      if @status.update(status_params) && @document && @document.update_attributes(status_params[:document_attributes])
         format.html { redirect_to @status, notice: 'Status was successfully updated.' }
         format.json { render :show, status: :ok, location: @status }
       else
@@ -60,6 +60,7 @@ class StatusesController < ApplicationController
       end
     end
   end
+
 
   # DELETE /statuses/1
   # DELETE /statuses/1.json
@@ -74,11 +75,12 @@ class StatusesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_status
-      @status = Status.find(params[:id])
+      @status = current_user.statuses.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def status_params
-      params.require(:status).permit(:content, :user_id)
+      params.require(:status).permit(:name, :user_id, :content, document_attributes: [:attachment, :remove_attachment] ) if params[:status]
     end
+
 end
