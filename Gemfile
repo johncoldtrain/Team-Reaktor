@@ -59,6 +59,8 @@ gem 'draper'
 
 gem 'js-routes'
 
+gem 'paperclip'
+
 
 
 

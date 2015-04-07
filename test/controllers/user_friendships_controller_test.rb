@@ -13,9 +13,9 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 
 		context "when logged in" do
 			setup do
-				@friendship1 = create(:pending_user_friendship, user: users(:alex), friend: create(:user, first_name: 'Pending', last_name: 'Friend'))
-				@friendship2 = create(:accepted_user_friendship, user: users(:alex), friend: create(:user, first_name: 'Active', last_name: 'Friend'))
-				@friendship3 = create(:requested_user_friendship, user: users(:alex), friend: create(:user, first_name: 'Requested', last_name: 'Friend'))
+				@friendship1 = create(:pending_user_friendship, user: users(:alex), friend: create(:user, first_name: 'Pending_friend', last_name: 'Friend'))
+				@friendship2 = create(:accepted_user_friendship, user: users(:alex), friend: create(:user, first_name: 'Active_friend', last_name: 'Friend'))
+				@friendship3 = create(:requested_user_friendship, user: users(:alex), friend: create(:user, first_name: 'Requested_friend', last_name: 'Friend'))
 				@friendship4 = user_friendships(:blocked_by_alex)
 
 				sign_in users(:alex)
@@ -31,19 +31,19 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 			end
 
 			should "display friend's names" do
-				assert_match /Pending/, response.body
-				assert_match /Active/, response.body
+				assert_match /Pending_friend/, response.body
+				assert_match /Active_friend/, response.body
 			end
 
 			should "display pending information on a pending friendship" do
 				assert_select "#user_friendship_#{@friendship1.id}" do  #  <-- assert_select to scope the test through html selectors
-					assert_select "em", "&nbsp; Friendship is pending."
+					assert_select "em", "Friendship is pending"
 				end
 			end
 
 			should "display pending information on a accepted friendship" do
 				assert_select "#user_friendship_#{@friendship2.id}" do 
-					assert_select "em", "&nbsp; Friendship started #{@friendship2.updated_at}."
+					assert_select "em", "Friendship is accepted"
 				end
 			end
 
@@ -58,12 +58,12 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 				end
 
 				should "not display pending or active friend's names" do
-					assert_no_match /Pending\ Friend/, response.body
-					assert_no_match /Active\ Friend/, response.body
+					assert_no_match /Pending_friend\ Friend/, response.body
+					assert_no_match /Active_friend\ Friend/, response.body
 				end
 
 				should "display blocked friend names" do 
-					assert_match /Blocked\ Friend/, response.body
+					assert_match /Blocked_friend\ Friend/, response.body
 				end
 
 			end # - blocked users -
@@ -79,12 +79,12 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 		        end
 
 		        should "not display pending or active friend's names" do
-		          assert_no_match /Blocked/, response.body
-		          assert_no_match /Active/, response.body
+		          assert_no_match /Blocked_friend/, response.body
+		          assert_no_match /Active_friend/, response.body
 		        end
 
 		        should "display blocked friends" do
-		          assert_match /Pending/, response.body
+		          assert_match /Pending_friend/, response.body
 		        end
 
 		     end # - pending friendships -
@@ -100,12 +100,12 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 		        end
 
 		        should "not display pending or active friend's names" do
-		          assert_no_match /Blocked/, response.body
-		          assert_no_match /Active/, response.body
+		          assert_no_match /Blocked_friend/, response.body
+		          assert_no_match /Active_friend/, response.body
 		        end
 
 		        should "display requested friends" do
-		          assert_match /Requested/, response.body
+		          assert_match /Requested_friend/, response.body
 		        end
 
 		     end # - requested friendships -
@@ -121,12 +121,12 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 		        end
 
 		        should "not display pending or active friend's names" do
-		          assert_no_match /Blocked/, response.body
-		          assert_no_match /Requested/, response.body
+		          assert_no_match /Blocked_friend/, response.body
+		          assert_no_match /Requested_friend/, response.body
 		        end
 
 		        should "display requested friends" do
-		          assert_match /Active/, response.body
+		          assert_match /Active_friend/, response.body
 		        end
 
 		    end # - accepted friendships -

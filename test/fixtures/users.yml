@@ -32,7 +32,7 @@ mike:
  encrypted_password: "password" 
 
 blocked_friend:
- first_name: 'Blocked'
+ first_name: 'Blocked_friend'
  last_name: 'Friend'
  email: 'blocked@email.com'
  profile_name: 'youblockedme'
