@@ -8,7 +8,7 @@ class StatusesController < ApplicationController
   # GET /statuses
   # GET /statuses.json
   def index
-    @statuses = Status.all
+    @statuses = Status.order('created_at desc').all
   end
 
   # GET /statuses/1
@@ -75,7 +75,7 @@ class StatusesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_status
-      @status = current_user.statuses.find(params[:id])
+      @status = Status.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

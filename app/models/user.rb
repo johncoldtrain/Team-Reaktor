@@ -53,6 +53,24 @@ class User < ActiveRecord::Base
                                         foreign_key: :user_id
   has_many :accepted_friends, through: :accepted_user_friendships, source: :friend
 
+# --- avatar from paperclip ---
+
+  has_attached_file :avatar, styles: {
+    large: "800x800>",medium: "300x200>", small: "260x180>", thumb: "80x80#"
+  } # the geometry strings and the sufix symbol come from image_magick pluggin documentation
+    # These sizes are aligned with Bootstrap size standards
+
+  validates_attachment_content_type :avatar, :content_type => %w(image/jpeg image/jpg image/png image/gif)
+
+
+  def self.get_gravatars
+    all.each do |user|
+      if !user.avatar?
+        user.avatar = URI.parse(user.gravatar_url)
+        user.save
+      end
+  end
+
 
    # Method to return the full name
    def full_name

@@ -60,6 +60,8 @@ gem 'draper'
 gem 'js-routes'
 
 gem 'paperclip'
+# ++++++++++++++ We use ImageMagick for handling resizing with paperclip. ImageMagick installed using HomeBrew. +++++++++++
+# -------------- http://imagemagick.org --------  http://brew.sh --------------
 
 
 
