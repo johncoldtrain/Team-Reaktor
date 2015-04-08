@@ -21,6 +21,8 @@ class User < ActiveRecord::Base
    # Relations declaration
    has_many :statuses
    has_many :user_friendships
+   has_many :albums
+   has_many :pictures
 
    # Special declaration since we are using an indirect attribute
 
@@ -63,13 +65,18 @@ class User < ActiveRecord::Base
   validates_attachment_content_type :avatar, :content_type => %w(image/jpeg image/jpg image/png image/gif)
 
 
+
+# Grab avatars from gravatar and save them in the application
   def self.get_gravatars
     all.each do |user|
       if !user.avatar?
         user.avatar = URI.parse(user.gravatar_url)
         user.save
+        print "."
       end
+    end
   end
+
 
 
    # Method to return the full name

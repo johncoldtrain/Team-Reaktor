@@ -4,11 +4,11 @@
 
 <div class="row">
 	<div class="avatar col-md-2">
-		<%= image_tag @user_friendship.user.gravatar_url %><br>
+		<%= avatar_profile_link @user_friendship.user, {} %><br>
 		<%= @user_friendship.user.first_name %>
 	</div>
 	<div class="avatar col-md-2">
-		<%= image_tag @user_friendship.friend.gravatar_url %><br>
+		<%= avatar_profile_link @user_friendship.friend, {} %><br>
 		<%= @user_friendship.friend.first_name %>
 	</div>
 </div>
@@ -26,10 +26,10 @@
 	<% end %>
 
 	<%= form_for @user_friendship, url: block_user_friendship_path(@user_friendship), method: :put do |form| %>
-		<%= submit_tag "Block Friendship", class: 'btn' %>
+		<%= submit_tag "Block Friendship .", class: 'btn btn-warning' %>
 	<% end %>
 
 	<%= form_for @user_friendship, url: user_friendship_path(@user_friendship), method: :delete do |form| %>
-		<%= submit_tag "Delete Friendship", class: 'btn btn-danger' %>
+		<%= submit_tag "Delete Friendship.", class: 'btn btn-danger' %>
 	<% end %>
 </div>
