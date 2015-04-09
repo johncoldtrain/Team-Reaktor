@@ -31,16 +31,21 @@ class AlbumsController < ApplicationController
   def create
     @album = current_user.albums.new(album_params)
     @album.save
+
+    current_user.create_activity(@album, 'created') # <=== For the activity model feed
+
     respond_with(@album)
   end
 
   def update
     @album.update(album_params)
+    current_user.create_activity(@album, 'updated') # <=== For the activity model feed
     respond_with(@album)
   end
 
   def destroy
     @album.destroy
+    current_user.create_activity(@album, 'deleted') # <=== For the activity model feed
     respond_with(@album)
   end
 

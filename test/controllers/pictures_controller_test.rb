@@ -33,6 +33,14 @@ class PicturesControllerTest < ActionController::TestCase
     assert_redirected_to album_pictures_path(@album.id)
   end
 
+  # *** for activity model ***
+  test "should create activity for the create picture" do
+    assert_difference 'Activity.count', 1 do
+      post :create, profile_name: @user.profile_name, album_id: @album.id, picture: { album_id: @picture.album_id, caption: @picture.caption, description: @picture.description, user_id: @picture.user_id }
+    end
+  end
+  # *** End of: activity model ***
+
   test "should show picture" do
     get :show, profile_name: @user.profile_name, album_id: @album.id, id: @picture
     assert_response :success
@@ -49,6 +57,15 @@ class PicturesControllerTest < ActionController::TestCase
     assert_redirected_to album_pictures_path(@album.id)
   end
 
+    # *** for activity model ***
+  test "should create activity for the update picture" do
+    assert_difference 'Activity.count', 1 do
+      patch :update, profile_name: @user.profile_name, album_id: @album.id, id: @picture, picture: { album_id: @picture.album_id, caption: @picture.caption, description: @picture.description, user_id: @picture.user_id }
+    end
+  end
+  # *** End of: activity model ***
+
+
   test "should destroy picture" do
     assert_difference('Picture.count', -1) do
       delete :destroy, profile_name: @user.profile_name, album_id: @album.id, id: @picture
@@ -56,4 +73,14 @@ class PicturesControllerTest < ActionController::TestCase
 
     assert_redirected_to album_path(@album.id)
   end
+
+  # *** for activity model ***
+  test "should create activity for the destroy picture" do
+    assert_difference 'Activity.count', 1 do
+      delete :destroy, profile_name: @user.profile_name, album_id: @album.id, id: @picture
+    end
+  end
+  # *** End of: activity model ***
+
+
 end

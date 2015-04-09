@@ -72,14 +72,31 @@ class StatusesControllerTest < ActionController::TestCase
     assert_equal assigns(:status).user_id, users(:alex).id
   end
 
-# --------------------------
+
+  # *** for activity model ***
+
+  test "should create an activity item for the status when logged in" do
+    sign_in users(:alex) 
+    assert_difference('Activity.count') do
+      post :create, status: { content: @status.content}
+    end
+  end
+
+  # *** End of: activity model ***
+
+
+# ------------- End of: For posting a status-------------
+
+
 
   test "should show status" do
     get :show, id: @status
     assert_response :success
   end
 
-# --- For editing a status ---
+
+
+# ------------ For editing a status -------------
   test " edit should be redirected when not signed in" do
     get :edit, id: @status
     assert_response :redirect
@@ -91,10 +108,12 @@ class StatusesControllerTest < ActionController::TestCase
     get :edit, id: @status
     assert_response :success
   end
-# -----------------------------
+# ------------- End of: For editing a status-------------
 
 
-# --- For updating a status ---
+
+
+# --------------- For updating a status ----------------
   test "should redirect status update when not logged in" do
     patch :update, id: @status, status: {content: @status.content}
     assert_response :redirect
@@ -114,9 +133,21 @@ class StatusesControllerTest < ActionController::TestCase
     assert_equal assigns(:status).user_id, users(:alex).id 
   end
 
-# -----------------------------
+  # *** for activity model ***
+  test "should create an activity for the update status when logged in" do
+    sign_in users(:alex)
+    assert_difference('Activity.count') do
+      patch :update, id: @status, status: { content: @status.content}
+    end
+  end
+  # *** End of: activity model ***
 
-# --- For deleting a status ---
+# ------------- End of: For updating a status-------------
+
+
+
+
+# ----------------- For deleting a status -----------------
 
   test "should destroy status when logged in" do
     sign_in users(:alex)
@@ -134,4 +165,23 @@ class StatusesControllerTest < ActionController::TestCase
   end
 
 
+  # *** for activity model ***
+  test "should create an activity for the destroy status when logged in" do
+    sign_in users(:alex)
+    assert_difference('Activity.count') do
+      delete :destroy, id: @status
+    end
+  end
+  # *** End of: activity model ***
+
+# ------------- End of: For deleting a status-------------
+
 end
+
+
+
+
+
+
+
+

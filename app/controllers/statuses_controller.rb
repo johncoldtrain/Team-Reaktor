@@ -34,6 +34,9 @@ class StatusesController < ApplicationController
 
     respond_to do |format|
       if @status.save
+
+        current_user.create_activity(@status, 'created') # <=== For the activity model feed
+
         format.html { redirect_to @status, notice: 'Status was successfully created.' }
         format.json { render :show, status: :created, location: @status }
       else
@@ -48,13 +51,17 @@ class StatusesController < ApplicationController
   # PATCH/PUT /statuses/1
   # PATCH/PUT /statuses/1.json
   def update
-
     @document = @status.document
 
     @status.transaction do
+      current_user.create_activity(@status, 'updated') # <=== For the activity model feed
+
       @status.update_attributes(status_params)
       @document.update_attributes(params[:status][:document]) if @document
-      raise ActiveRecord::Rollback unless @status.valid? && @document.try(:valid?)
+
+      unless @status.valid? || (@status.valid? && @document && !@document.valid?)
+        raise ActiveRecord::Rollback
+      end
     end
 
     respond_to do |format|
@@ -74,10 +81,12 @@ class StatusesController < ApplicationController
 
 
 
+
   # DELETE /statuses/1
   # DELETE /statuses/1.json
   def destroy
     @status.destroy
+    current_user.create_activity(@status, 'deleted') # <=== For the activity model feed
     respond_to do |format|
       format.html { redirect_to statuses_url, notice: 'Status was successfully destroyed.' }
       format.json { head :no_content }

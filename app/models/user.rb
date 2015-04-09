@@ -24,6 +24,11 @@ class User < ActiveRecord::Base
    has_many :albums
    has_many :pictures
 
+   # Polymorphic association
+   has_many :activities 
+
+
+
    # Special declaration since we are using an indirect attribute
 
    # Advanced scoping. -> is the conditional setting.
@@ -103,4 +108,27 @@ class User < ActiveRecord::Base
    end
 
 
+   def create_activity(item, action)
+    activity = activities.new
+    activity.targetable = item
+    activity.action = action
+    activity.save
+    activity
+   end
+
+
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,9 +2,6 @@
 
 one:
  content: MyText
-  # Added to be able to run the statuses_controller_test.rb 
-  # to implement the login requirenment in the statuses_controller.rb
-  # as a before_action
  user: alex
 
 two:

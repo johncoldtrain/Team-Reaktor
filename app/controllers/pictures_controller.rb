@@ -36,6 +36,8 @@ class PicturesController < ApplicationController
     @picture = @album.pictures.new(picture_params)
     @picture.user = current_user
 
+    current_user.create_activity(@picture, 'created') # <=== For the activity model feed
+
     respond_to do |format|
       if @picture.save
         format.html { redirect_to album_pictures_path(@album), notice: 'Picture was successfully added.'}
@@ -52,6 +54,9 @@ class PicturesController < ApplicationController
   def update
     respond_to do |format|
       if @picture.update_attributes(picture_params)
+
+        current_user.create_activity(@picture, 'updated') # <=== For the activity model feed
+
         format.html { redirect_to album_pictures_path(@album), notice: 'Picture was successfully updated.' }
         format.json { head :no_content }
       else
@@ -65,6 +70,7 @@ class PicturesController < ApplicationController
 
   def destroy
     @picture.destroy
+    current_user.create_activity(@picture, 'deleted') # <=== For the activity model feed
     respond_with(@album)
   end
 
