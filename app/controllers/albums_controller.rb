@@ -1,9 +1,10 @@
 class AlbumsController < ApplicationController
 
   before_filter :authenticate_user!, only: [:create, :new, :update, :edit, :destroy]
+  before_filter :find_user
+  before_filter :ensure_proper_user, only: [:edit, :new, :create, :destroy]
 
-  before_action :find_user
-  before_action :set_album, only: [:show, :edit, :update, :destroy]
+  before_action :set_album, only: [ :edit, :update, :destroy]
 
   before_action :add_breadcrumbs
 
@@ -55,6 +56,13 @@ class AlbumsController < ApplicationController
     add_breadcrumb @user.first_name, profile_path(@user)
     add_breadcrumb "Albums", albums_path
   end
+
+  def ensure_proper_user
+      if current_user != @user
+        flash[:alert] = "You don't have permission to do that."
+        redirect_to albums_path
+      end
+    end
 
   def set_album
     @album = current_user.albums.find(params[:id])

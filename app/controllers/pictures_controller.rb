@@ -3,8 +3,9 @@ class PicturesController < ApplicationController
   before_filter :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   before_action :find_user
-  before_action :find_album
+  before_filter :ensure_proper_user, only: [:edit, :new, :create, :destroy]
 
+  before_action :find_album
   before_action :set_picture, only: [:show, :edit, :update, :destroy]
 
   before_action :add_breadcrumbs
@@ -82,6 +83,15 @@ class PicturesController < ApplicationController
       add_breadcrumb "Albums", albums_path
       add_breadcrumb "Pictures", album_pictures_path(@album)
     end
+
+
+    def ensure_proper_user
+      if current_user != @user
+        flash[:alert] = "You don't have permission to do that."
+        redirect_to album_pictures_path
+      end
+    end
+
 
 
     def find_user
