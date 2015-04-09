@@ -32,7 +32,7 @@ module ApplicationHelper
 	end
 
 	def page_header(&block)
-		content_tag(:div, capture(&block), class: 'page-header')
+		content_tag(:div, capture(&block), class: 'header')
 	end
 
 	def flash_class(type)

@@ -7,6 +7,8 @@ class PicturesController < ApplicationController
 
   before_action :set_picture, only: [:show, :edit, :update, :destroy]
 
+  before_action :add_breadcrumbs
+
   respond_to :html
 
   def index
@@ -15,6 +17,7 @@ class PicturesController < ApplicationController
   end
 
   def show
+    add_breadcrumb @picture.caption
     respond_with(@picture)
   end
 
@@ -61,7 +64,7 @@ class PicturesController < ApplicationController
 
   def destroy
     @picture.destroy
-    respond_with(@picture)
+    respond_with(@album)
   end
 
 
@@ -69,7 +72,17 @@ class PicturesController < ApplicationController
     { profile_name: params[:profile_name] }.merge(super)
   end
 
+
+
+
   private
+
+    def add_breadcrumbs
+      add_breadcrumb @user.first_name, profile_path(@user)
+      add_breadcrumb "Albums", albums_path
+      add_breadcrumb "Pictures", album_pictures_path(@album)
+    end
+
 
     def find_user
       @user = User.find_by_profile_name(params[:profile_name])

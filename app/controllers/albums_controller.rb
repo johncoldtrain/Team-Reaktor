@@ -5,10 +5,12 @@ class AlbumsController < ApplicationController
   before_action :find_user
   before_action :set_album, only: [:show, :edit, :update, :destroy]
 
+  before_action :add_breadcrumbs
+
   respond_to :html
 
   def index
-    @albums = current_user.albums.all
+    @albums = @user.albums.all
     respond_with(@albums)
   end
 
@@ -22,6 +24,7 @@ class AlbumsController < ApplicationController
   end
 
   def edit
+    add_breadcrumb "Editing Album"
   end
 
   def create
@@ -47,17 +50,23 @@ class AlbumsController < ApplicationController
 
 
   private
-    def set_album
-      @album = current_user.albums.find(params[:id])
-    end
 
-    def album_params
-      params.require(:album).permit(:user_id, :title)
-    end
+  def add_breadcrumbs
+    add_breadcrumb @user.first_name, profile_path(@user)
+    add_breadcrumb "Albums", albums_path
+  end
 
-    def find_user
-      @user = User.find_by_profile_name(params[:profile_name])
-    end
+  def set_album
+    @album = current_user.albums.find(params[:id])
+  end
+
+  def album_params
+    params.require(:album).permit(:user_id, :title)
+  end
+
+  def find_user
+    @user = User.find_by_profile_name(params[:profile_name])
+  end
 
 
 

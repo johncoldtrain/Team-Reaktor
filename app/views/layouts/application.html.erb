@@ -52,6 +52,8 @@
 
 
 	<div class="container">
+		<%= render_breadcrumbs ( "" ) %>  <!--+++++ From the twitter-bootstrap-rails gem ++++-->
+
 		<% if flash[:notice] %>
 			<div class="alert alert-success" role="alert">
 				<button class="close" data-dismiss="alert">x</button>
