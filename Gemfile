@@ -65,6 +65,9 @@ gem 'paperclip'
 
 gem 'twitter-bootstrap-rails'
 
+gem 'will_paginate'
+
+gem 'bootstrap-will_paginate'
 
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

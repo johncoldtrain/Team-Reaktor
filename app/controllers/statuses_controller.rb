@@ -57,7 +57,7 @@ class StatusesController < ApplicationController
       current_user.create_activity(@status, 'updated') # <=== For the activity model feed
 
       @status.update_attributes(status_params)
-      @document.update_attributes(params[:status][:document]) if @document
+      @document.update_attributes(status_params[:document_attributes]) if @document
 
       unless @status.valid? || (@status.valid? && @document && !@document.valid?)
         raise ActiveRecord::Rollback
