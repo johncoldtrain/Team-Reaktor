@@ -3,6 +3,10 @@ Rails.application.routes.draw do
 
   resources :activities, only: [:index]
 
+  match "/statuses/post_comment" => "statuses#post_comment", :as => "add_new_comment_to_statuses", :via => [:post]
+  match "/statuses/delete_comment/:id" => "statuses#destroy_comment", :as => "delete_comment_from_status", :via => [:delete]
+
+
   as :user do
     get '/register', to: 'devise/registrations#new', as: :register
     get '/login', to: 'devise/sessions#new', as: :login

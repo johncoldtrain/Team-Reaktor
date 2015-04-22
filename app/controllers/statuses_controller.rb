@@ -3,7 +3,7 @@ class StatusesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy] # Only for new statuses
   # This came from the Devise documentation in GitHub
 
-  before_action :set_status, only: [:show, :edit, :update, :destroy]
+  before_action :set_status, only: [:show, :edit, :update, :destroy, :post_comment]
 
   # GET /statuses
   # GET /statuses.json
@@ -14,7 +14,9 @@ class StatusesController < ApplicationController
   # GET /statuses/1
   # GET /statuses/1.json
   def show
-  end
+    @comments = @status.comments.recent.limit(10).all 
+    # post_comment
+  end 
 
   # GET /statuses/new
   def new
@@ -47,11 +49,12 @@ class StatusesController < ApplicationController
   end
 
 
-
   # PATCH/PUT /statuses/1
   # PATCH/PUT /statuses/1.json
   def update
     @document = @status.document
+
+    @comments = @status.comments
 
     @status.transaction do
       current_user.create_activity(@status, 'updated') # <=== For the activity model feed
@@ -80,8 +83,6 @@ class StatusesController < ApplicationController
   end
 
 
-
-
   # DELETE /statuses/1
   # DELETE /statuses/1.json
   def destroy
@@ -93,6 +94,31 @@ class StatusesController < ApplicationController
     end
   end
 
+
+
+  # ====== Comments Methods =======
+
+  def post_comment   
+    @status.transaction do 
+      comment = Comment.new(comment_params)
+      comment.user_id = current_user.id
+      @status.comments << comment
+      comment.save
+    end
+
+    redirect_to :action => :show, :id => @status
+  end
+
+  def destroy_comment
+    comment = Comment.find_by_id(params[:id])
+    @status = Status.find_by_id(comment.commentable_id)
+    comment.destroy
+    redirect_to :action => :show, :id => @status
+  end
+
+  # ======= End of Comments ======== 
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_status
@@ -101,7 +127,13 @@ class StatusesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def status_params
-      params.require(:status).permit(:name, :user_id, :content, document_attributes: [:attachment, :remove_attachment] ) if params[:status]
+      params.require(:status).permit(:name, :user_id, :content, document_attributes: [:attachment, :remove_attachment]) if params[:status]
     end
+
+    def comment_params
+      params.require(:comment).permit(:title, :comment, :user_id, :comentable_id, :comentable_type)
+    end
+
+
 
 end

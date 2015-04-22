@@ -5,6 +5,10 @@ class Status < ActiveRecord::Base
 
 	accepts_nested_attributes_for :document
 
+	acts_as_commentable
+
+	#accepts_nested_attributes_for :comment
+
 	validates :content, presence: true,
 				length: { minimum: 2 }
 

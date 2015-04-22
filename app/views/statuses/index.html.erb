@@ -17,6 +17,12 @@
           
         <div class="meta">
             <%= link_to time_ago_in_words(status.created_at) + " ago", status %> 
+            <% if status.comments.count > 0 %>
+              <% status.comments.count == 1 ? caption = "Comment" : caption = "Comments" %>
+              <%= link_to "| #{status.comments.count} #{caption}", status %>
+            <% else %>
+              <%= link_to "| Add Comment", status %>
+            <% end %>
             <% if signed_in? && current_user == status.user %>
             <span class="admin">
               | <%= link_to "Edit", edit_status_path(status) %> | 

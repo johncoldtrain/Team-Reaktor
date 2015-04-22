@@ -20,6 +20,44 @@
       <hr />
 
 
+
+<!-- ### Comments Section ### -->
+    
+    <%= form_tag add_new_comment_to_statuses_path do %>
+      <%= hidden_field_tag "id", @status.id %>
+      <div class="form-group">
+        <%= text_area_tag "comment[comment]", nil, rows: 2, cols: 100 %>
+      </div>
+      <%= submit_tag("Post Comment", class: 'btn btn-primary') %>
+
+    <% end %>
+  
+
+
+
+  <!-- Show Comments -->
+
+    <% @comments.each do |comment|%>
+    <% author = User.find_by_id(comment.user_id) %>
+
+    <div class="status media">
+      <%= avatar_profile_link author, {}, class: 'pull-left' %>
+
+      <div class="media-body">
+        <strong class="media-heading"><%= author.full_name %> commented:</strong>
+          <small><%= comment.title %> </small>
+          <p><%= comment.comment %></p>
+      </div>
+      <% if signed_in? && current_user == author %>
+        <%= link_to 'Delete', delete_comment_from_status_path(comment) , method: :delete, data: { confirm: "Are you sure your want to delete this comment?"}%>
+      <% end %>
+    </div>
+    <% end %>
+
+<!-- End of Comments  -->
+
+
+
     <div class="meta">
       <%= link_to 'Back', statuses_path %>
       <% if signed_in? && @status.user == current_user %>
