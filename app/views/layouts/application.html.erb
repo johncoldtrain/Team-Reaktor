@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Treebook</title>
+  <title>Team-Reaktor</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -18,9 +18,9 @@
 		        <span class="icon-bar"></span>
 	    	</button>
 	      <% if user_signed_in? %>
-	      <%= link_to "Treebook", activities_path, class: 'navbar-brand' %>
+	      <%= link_to "Team-Reaktor", activities_path, class: 'navbar-brand' %>
 	      <% else %>
-	      <%= link_to "Treebook", root_path, class: 'navbar-brand' %>
+	      <%= link_to "Team-Reaktor", root_path, class: 'navbar-brand' %>
 	      <% end %>
 	    </div>
 
