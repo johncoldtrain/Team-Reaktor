@@ -106,5 +106,8 @@ Handlebars.registerHelper('activityLink', function() {
   return new Handlebars.SafeString( html );
 });
 
+if('<% j user_signed_in? %>') {
+
 window.pollInterval = window.setInterval( pollActivity, 30000 );
 pollActivity();
+}
