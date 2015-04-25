@@ -104,6 +104,8 @@ class StatusesController < ApplicationController
       comment.user_id = current_user.id
       @status.comments << comment
       comment.save
+
+      current_user.create_activity(@status, 'commented') # <=== For the activity model feed
     end
 
     redirect_to :action => :show, :id => @status

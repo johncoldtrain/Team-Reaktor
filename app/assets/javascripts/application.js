@@ -67,8 +67,8 @@ var pollActivity = function() {
         for (var i = 0; i < data.length; i++) {
           addActivity(data[i]);
         }
-        renderActivities();
       }
+      renderActivities();
     }
   });
 }
@@ -96,6 +96,9 @@ Handlebars.registerHelper('activityLink', function() {
       path = Routes.profile_path(activity.profile_name);
       linkText = "friend";
       break;
+      case "comment":
+      path = Routes.status_path(activity.targetable_id);
+      break;
   }
 
   if (activity.action === 'deleted') {
@@ -111,7 +114,6 @@ $(document).ready(function() {
   if ($("#login").length == 0) {
     window.pollInterval = window.setInterval( pollActivity, 30000 );
     pollActivity();
-    console.log("Entered");
-  }
+  } 
 
 });
