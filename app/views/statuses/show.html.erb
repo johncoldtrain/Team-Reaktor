@@ -22,14 +22,14 @@
 
 
 <!-- ### Comments Section ### -->
-    
-    <%= form_tag add_new_comment_to_statuses_path do %>
-      <%= hidden_field_tag "id", @status.id %>
-      <div class="form-group">
-        <%= text_area_tag "comment[comment]", nil, rows: 2, cols: 100 %>
-      </div>
-      <%= submit_tag("Post Comment", class: 'btn btn-primary') %>
-
+    <% if signed_in? %>
+      <%= form_tag add_new_comment_to_statuses_path do %>
+        <%= hidden_field_tag "id", @status.id %>
+        <div class="form-group">
+          <%= text_area_tag "comment[comment]", nil, rows: 2, cols: 100 %>
+        </div>
+        <%= submit_tag("Post Comment", class: 'btn btn-primary') %>
+      <% end %>
     <% end %>
   
 

@@ -21,7 +21,7 @@
               <% status.comments.count == 1 ? caption = "Comment" : caption = "Comments" %>
               <%= link_to "| #{status.comments.count} #{caption}", status %>
             <% else %>
-              <%= link_to "| Add Comment", status %>
+              <%= link_to "| Add Comment", status if signed_in? %>
             <% end %>
             <% if signed_in? && current_user == status.user %>
             <span class="admin">

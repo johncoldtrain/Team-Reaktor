@@ -1,6 +1,6 @@
 class StatusesController < ApplicationController
   
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy] # Only for new statuses
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :post_comment, :destroy_comment] # Only for new statuses
   # This came from the Devise documentation in GitHub
 
   before_action :set_status, only: [:show, :edit, :update, :destroy, :post_comment]
