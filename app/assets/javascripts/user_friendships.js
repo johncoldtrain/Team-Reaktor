@@ -1,6 +1,10 @@
 window.userFriendships = [];
 
+
+
 $(document).ready(function() {
+
+  if ($("#login").length == 0) {
 	
 	$.ajax({
 		url: Routes.user_friendships_path({format: 'json'}),
@@ -26,8 +30,8 @@ $(document).ready(function() {
 			}
 		});
 	});
-
-
-
+  }
+  
 });
+
 
